@@ -9,15 +9,15 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Comparar DEV_TOKEN con LOCAL_DEV_TOKEN
-        shell: bash
+        shell: cmd
         env:
           SECRET_DEV: ${{ secrets.DEV_TOKEN }}
-          LOCAL_DEV: ${{ env.LOCAL_DEV_TOKEN }}
+          LOCAL_DEV: "12345"
         run: |
-          if [ "$SECRET_DEV" = "$LOCAL_DEV" ]; then
-            echo "¡Coinciden! El token local es correcto."
-            exit 0
-          else
-            echo "ERROR: Los tokens no coinciden."
-            exit 1
-          fi
+          if "%SECRET_DEV%"=="%LOCAL_DEV%" (
+              echo Coinciden! El token es correcto.
+              exit /b 0
+          ) else (
+              echo ERROR: Los tokens no coinciden.
+              exit /b 1
+          )
