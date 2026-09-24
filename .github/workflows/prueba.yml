@@ -12,7 +12,7 @@ jobs:
         shell: powershell
         env:
           SECRET_DEV: ${{ secrets.DEV_TOKEN }}
-          LOCAL_DEV: ${{ env.LOCAL_DEV_TOKEN }}
+          LOCAL_DEV: "mi_token_dev_123"
         run: |
           if ($env:SECRET_DEV -eq $env:LOCAL_DEV) {
               Write-Output "¡Coinciden! El token local es correcto."
