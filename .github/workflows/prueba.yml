@@ -1,0 +1,23 @@
+name: Comprobar Tokens
+
+on:
+  push:
+    branches: [ "**" ]
+
+jobs:
+  verificar-tokens:
+    runs-on: self-hosted
+    steps:
+      - name: Comparar DEV_TOKEN con LOCAL_DEV_TOKEN
+        shell: powershell
+        env:
+          SECRET_DEV: ${{ secrets.DEV_TOKEN }}
+          LOCAL_DEV: ${{ env.LOCAL_DEV_TOKEN }}
+        run: |
+          if ($env:SECRET_DEV -eq $env:LOCAL_DEV) {
+              Write-Output "¡Coinciden! El token local es correcto."
+              exit 0
+          } else {
+              Write-Error "ERROR: Los tokens no coinciden."
+              exit 1
+          }
