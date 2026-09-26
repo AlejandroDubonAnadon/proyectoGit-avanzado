@@ -24,7 +24,7 @@ jobs:
         shell: cmd
         env:
           SECRET_DEV: ${{ secrets.DEV_TOKEN }}
-          LOCAL_DEV: "12345"
+          LOCAL_DEV: "error12345"
         run: |
           if "%SECRET_DEV%"=="%LOCAL_DEV%" (
               echo Token de DEV valido.
