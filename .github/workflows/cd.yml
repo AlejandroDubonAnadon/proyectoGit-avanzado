@@ -1,0 +1,31 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy-prod:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Incrementar versión en README (Bump Version)
+        shell: cmd
+        run: |
+          echo AppVersion-1 >> README.md
+
+      - name: Validar Token de Prod
+        shell: cmd
+        env:
+          SECRET_PROD: ${{ secrets.PROD_TOKEN }}
+          LOCAL_PROD: "mi_token_prod_456"
+        run: |
+          if "%SECRET_PROD%"=="%LOCAL_PROD%" (
+              echo Despliegue en PROD exitoso.
+              exit /b 0
+          ) else (
+              echo ERROR: Token de PROD invalido.
+              exit /b 1
+          )

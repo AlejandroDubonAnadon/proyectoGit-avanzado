@@ -1,0 +1,35 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  update-readme:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Añadir línea de feature al README
+        shell: cmd
+        run: |
+          echo - Nova feature afegida >> README.md
+
+  validate-dev:
+    needs: update-readme
+    runs-on: self-hosted
+    steps:
+      - name: Validar Token de Dev
+        shell: cmd
+        env:
+          SECRET_DEV: ${{ secrets.DEV_TOKEN }}
+          LOCAL_DEV: "12345"
+        run: |
+          if "%SECRET_DEV%"=="%LOCAL_DEV%" (
+              echo Token de DEV valido.
+              exit /b 0
+          ) else (
+              echo ERROR: Token de DEV invalido.
+              exit /b 1
+          )
